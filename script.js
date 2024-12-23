@@ -10,8 +10,8 @@ const products = [
 ];
 
 let productsList = [];
-if (sessionStorage.getItem("productsId")) {
-  productsList = JSON.parse(sessionStorage.getItem("productsId"));
+if (sessionStorage.getItem("cart")) {
+  productsList = JSON.parse(sessionStorage.getItem("cart"));
 }
 
 // DOM elements
@@ -40,7 +40,7 @@ function renderCart() {
 // Add item to cart
 function addToCart(productId) {
   productsList.push(products[productId - 1]);
-  sessionStorage.setItem("productsId", JSON.stringify(productsList));
+  sessionStorage.setItem("cart", JSON.stringify(productsList));
   renderCart();
 }
 
@@ -50,14 +50,14 @@ function removeFromCart(productId) {
   productsList = productsList.filter((item) => {
     return productId != item.id;
   });
-  sessionStorage.setItem("productsId", JSON.stringify(productsList));
+  sessionStorage.setItem("cart", JSON.stringify(productsList));
   renderCart();
 }
 
 // Clear cart
 function clearCart() {
   productsList.splice(0);
-  sessionStorage.setItem("productsId", productsList);
+  sessionStorage.setItem("cart", productsList);
   renderCart();
 }
 
