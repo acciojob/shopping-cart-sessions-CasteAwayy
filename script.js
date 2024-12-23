@@ -11,7 +11,7 @@ const products = [
 
 let productsList = [];
 if (sessionStorage.getItem("productsId")) {
-  productsList = sessionStorage.getItem("productsId").split(",");
+  productsList = JSON.parse(sessionStorage.getItem("productsId"));
 }
 
 // DOM elements
@@ -32,17 +32,15 @@ function renderCart() {
   cartList.innerHTML = "";
   productsList.forEach((cartItem) => {
     const li = document.createElement("li");
-    li.innerHTML = `${products[cartItem - 1].name} - $${
-      products[cartItem - 1].price
-    } <button class="remove-from-cart-btn" data-id="${cartItem}" onClick="removeFromCart(this.dataset.id)">Remove</button>`;
+    li.innerHTML = `${cartItem.name} - $${cartItem.price} <button class="remove-from-cart-btn" data-id="${cartItem.id}" onClick="removeFromCart(this.dataset.id)">Remove</button>`;
     cartList.appendChild(li);
   });
 }
 
 // Add item to cart
 function addToCart(productId) {
-  productsList.push(productId);
-  sessionStorage.setItem("productsId", productsList);
+  productsList.push(products[productId - 1]);
+  sessionStorage.setItem("productsId", JSON.stringify(productsList));
   renderCart();
 }
 
@@ -50,9 +48,9 @@ function addToCart(productId) {
 function removeFromCart(productId) {
   console.log(productId);
   productsList = productsList.filter((item) => {
-    return productId != item;
+    return productId != item.id;
   });
-  sessionStorage.setItem("productsId", productsList);
+  sessionStorage.setItem("productsId", JSON.stringify(productsList));
   renderCart();
 }
 
